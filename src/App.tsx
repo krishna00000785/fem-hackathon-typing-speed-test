@@ -1,10 +1,20 @@
 import './App.css'
+import { Controls } from './components/Controls'
+import { Header } from './components/Header'
+import { StatsBar } from './components/StatsBar'
+import { TypingArea } from './components/TypingArea'
+import { Container } from './layout/Container'
 
 function App() {
     return (
-    <div className="min-h-screen bg-neutral-900 text-neutral-0 font-sora flex items-center justify-center">
-      Typing Speed Test
-    </div>
+      <Container>
+        <div className='space-y-6'>
+          <Header />
+          <StatsBar />
+          <Controls />
+          <TypingArea />
+        </div>
+      </Container>
   )
 }
 
