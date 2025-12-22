@@ -4,19 +4,25 @@ import data from '../assets/data/data.json';
 {/*
     TypingArea Component 
     TODO: 
-      - Need to handle if both passage length and input length matched disable further input
+        - Load passage based on difficulty and mode
+        - Implement timer for timed mode
+        - Calculate WPM and accuracy
 */}
 export function TypingArea() {
 
   const [isStarted, setIsStarted] = useState(false);
-//  const [passage, setPassage] = useState(data.easy[0].text);
+
+//const [passage, setPassage] = useState(data.easy[0].text);
   const passage = data.easy[0].text;
+  const chars = passage.split('');
   const maxLength = passage.length;
+
   const [inputValue, setInputValue] = useState('');
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  console.log(passage);
   console.log(maxLength);
-//  useEffect(() => {setPassage(data.easy[0].text);}, []);
+//useEffect(() => {setPassage(data.easy[0].text);}, []);
 
   {/* Start Test */}
   const startTest = () => {
@@ -44,9 +50,32 @@ export function TypingArea() {
   return (
     <div onClick={startTest} className="relative mt-6 rounded-lg bg-neutral-800 px-4 py-6 min-h-[200px] cursor-text">
       {/* content goes here */}
-      <p className={`text-base leading-relaxed text-neutral-400 ${!isStarted ? 'select-none' : ''}`} >
-        {/* Need to update the content based on the difficult level */}
-        {passage}
+      <p className={`flex flex-wrap text-base leading-relaxed ${!isStarted ? 'select-none' : ''}`} >
+        
+        {
+          chars.map((char, index) => {
+            const cursor = index === inputValue.length;
+            const typedChar = inputValue[index];
+
+            let className = 'text-neutral-500';
+            if (typedChar !== undefined) {
+              if (typedChar === char) {
+                className = 'text-green-400';
+              } else {
+                className = 'text-red-400';
+              }
+            }
+
+            return(
+              <span key={index} className='relative'>
+                {cursor && (<span className="absolute -left-[1px] h-6 w-[2px] bg-white animate-pulse" />)}
+
+                <span className={className}>{char === ' ' ? '\u00A0' : char}</span>
+              </span>
+            );
+          })
+        }
+
       </p>
 
       {/* Overlay */}
