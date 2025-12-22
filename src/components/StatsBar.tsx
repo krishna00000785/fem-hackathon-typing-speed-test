@@ -1,8 +1,10 @@
 type StatusBarProps = {
   timeElapsed: number;
+  accuracy: number;
+  wpm: number;
 };
 
-export function StatsBar({ timeElapsed }: StatusBarProps) {
+export function StatsBar({ timeElapsed, accuracy, wpm }: StatusBarProps) {
   const minutes = Math.floor(timeElapsed / 60);
   const seconds = timeElapsed % 60;
 
@@ -11,7 +13,7 @@ export function StatsBar({ timeElapsed }: StatusBarProps) {
         {/* WPM */}
         <div className="flex flex-1 flex-col items-center">
             <span className="text-sm text-neutral-400">WPM:</span>
-            <span className="text-lg font-semibold text-neutral-0">0</span>
+            <span className="text-lg font-semibold text-neutral-0">{wpm}</span>
         </div>
 
         {/* divider */}
@@ -20,7 +22,7 @@ export function StatsBar({ timeElapsed }: StatusBarProps) {
         {/* Accuracy */}
         <div className="flex flex-1 flex-col items-center">
             <span className="text-sm text-neutral-400">Accuracy:</span>
-            <span className="text-lg font-semibold text-neutral-0">0%</span>
+            <span className="text-lg font-semibold text-neutral-0">{accuracy}%</span>
         </div>
 
         {/* divider */}
