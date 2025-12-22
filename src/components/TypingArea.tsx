@@ -86,7 +86,7 @@ export function TypingArea() {
         ref={inputRef}
         value={inputValue}
         onChange={handleInputChange}
-        className="absolute opacity-0 pointer-events-none"
+        className="absolute inset-0 opacity-0 w-full h-full resize-none outline-none"
         aria-label='Typing input'
       />
 
