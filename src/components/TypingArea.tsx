@@ -8,7 +8,13 @@ import data from '../assets/data/data.json';
         - Implement timer for timed mode
         - Calculate WPM and accuracy
 */}
-export function TypingArea() {
+
+type TypingAreaProps = {
+  isTimerRunning: boolean;
+  setIsTimerRunning: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export function TypingArea({ isTimerRunning, setIsTimerRunning }: TypingAreaProps) {
 
   const [isStarted, setIsStarted] = useState(false);
 
@@ -22,7 +28,6 @@ export function TypingArea() {
 
   console.log(passage);
   console.log(maxLength);
-//useEffect(() => {setPassage(data.easy[0].text);}, []);
 
   {/* Start Test */}
   const startTest = () => {
@@ -44,8 +49,20 @@ export function TypingArea() {
     if(value.length > maxLength) {
       return;
     }
+
+    if(!isTimerRunning && value.length == 1) {
+      setIsTimerRunning(true);
+      console.log("Timer started");
+    }
+
     setInputValue(value);
   }
+
+  useEffect(() => {
+    if(isTimerRunning && inputValue.length === passage.length) {
+      setIsTimerRunning(false)
+    }
+  }, [inputValue.length, isTimerRunning, passage.length, setIsTimerRunning]);
 
   return (
     <div onClick={startTest} className="relative mt-6 rounded-lg bg-neutral-800 px-4 py-6 min-h-[200px] cursor-text">
