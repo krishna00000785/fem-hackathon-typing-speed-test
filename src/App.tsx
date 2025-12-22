@@ -4,7 +4,7 @@ import { Header } from './components/Header'
 import { StatsBar } from './components/StatsBar'
 import { TypingArea } from './components/TypingArea'
 import { Container } from './layout/Container'
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
 
