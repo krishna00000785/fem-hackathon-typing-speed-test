@@ -9,13 +9,17 @@ import { DifficultyLabelToKeyMap } from './types/DifficultyLabelToKeyMap'
 
 function App() {
 
-  const [timeElapsed, setTimeElapsed] = useState(0);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [accuracy, setAccuracy] = useState(100);
   const [typedChars, setTypedChars] = useState(0);
+  const [difficulty, setDifficulty] = useState('Easy');
+  const [mode, setMode] = useState('Timed (60s)');
+  const [timeElapsed, setTimeElapsed] = useState(() => {
+    return mode === 'Timed (60s)' ? 60 : 0;
+  });
+
   const timeMinutes = timeElapsed / 60;
   const wpm = timeMinutes > 0 ? Math.round((typedChars / 5) / timeMinutes) : 0;
-  const [difficulty, setDifficulty] = useState('Easy');
 
   const difficultyKey = Object.entries(DifficultyLabelToKeyMap)
                         .find(([label]) => label === difficulty)?.[1] as string;
@@ -26,11 +30,22 @@ function App() {
     if(!isTimerRunning) return;
 
     const timer = setInterval(() => {
-      setTimeElapsed((prev) => prev + 1);
+      if(mode === 'Timed (60s)') {
+        setTimeElapsed((prev) => {
+          if(prev <= 1) {
+            clearInterval(timer);
+            setIsTimerRunning(false);
+            return 0;
+          }
+          return prev - 1;
+        });
+      } else {
+        setTimeElapsed((prev) => prev + 1);
+      }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isTimerRunning]);
+  }, [isTimerRunning, mode]);
   
   return (
       <Container>
@@ -44,6 +59,8 @@ function App() {
           <Controls 
             difficulty={difficulty}
             setDifficulty={setDifficulty}
+            mode={mode}
+            setMode={setMode}
           />
           <TypingArea 
             isTimerRunning={isTimerRunning}

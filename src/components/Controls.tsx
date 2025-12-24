@@ -1,13 +1,13 @@
 import { Dropdown } from "./Dropdown";
-import { useState } from 'react';
 
 type ControlsBarProps = {
-  difficulty: string;
-  setDifficulty: React.Dispatch<React.SetStateAction<string>>
+    difficulty: string;
+    setDifficulty: React.Dispatch<React.SetStateAction<string>>
+    mode: string;
+    setMode: React.Dispatch<React.SetStateAction<string>>
 };
 
-export function Controls({ difficulty, setDifficulty }: ControlsBarProps) {
-    const [mode, setMode] = useState('Timed (60s)');
+export function Controls({ difficulty, setDifficulty, mode, setMode }: ControlsBarProps) {
 
     return (
         /* Controls - div */
