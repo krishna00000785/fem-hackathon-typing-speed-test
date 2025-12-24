@@ -7,6 +7,15 @@ import { Container } from './layout/Container'
 import { useState, useEffect } from 'react';
 import { DifficultyLabelToKeyMap } from './types/DifficultyLabelToKeyMap'
 
+{
+  /*
+    TODO: 
+      - Reset test when difficulty changes
+      - Disable difficulty/mode change mid-test
+      - Persist best WPM per difficulty
+  */
+}
+
 function App() {
 
   const [isTimerRunning, setIsTimerRunning] = useState(false);
@@ -61,6 +70,7 @@ function App() {
             setDifficulty={setDifficulty}
             mode={mode}
             setMode={setMode}
+            isTimerRunning={isTimerRunning}
           />
           <TypingArea 
             isTimerRunning={isTimerRunning}

@@ -4,17 +4,19 @@ type DropdownProps = {
   value: string;
   options: string[];
   onChange: (value: string) => void;
+  disabled: boolean;
 };
 
-export function Dropdown({ value, options, onChange }: DropdownProps) {
+export function Dropdown({ value, options, onChange, disabled }: DropdownProps) {
     const [open, setOpen] = useState(false);
 
     return (
         <div className='relative w-full'>
             {/* Trigger */}
             <button
+                disabled={disabled}
                 onClick={() => setOpen(!open)}
-                className='
+                className={`
                     w-full
                     h-10
                     flex items-center justify-center
@@ -27,7 +29,8 @@ export function Dropdown({ value, options, onChange }: DropdownProps) {
                     border border-neutral-500
                     hover:border-neutral-500
                     focus:border-neutral-500
-                    '
+                    ${disabled ? 'pointer-events-none opacity-50' : ''}
+                    `}
             >
                 <span className="flex items-center gap-2">
                     {value}

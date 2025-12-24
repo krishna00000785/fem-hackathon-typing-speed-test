@@ -5,9 +5,10 @@ type ControlsBarProps = {
     setDifficulty: React.Dispatch<React.SetStateAction<string>>
     mode: string;
     setMode: React.Dispatch<React.SetStateAction<string>>
+    isTimerRunning: boolean
 };
 
-export function Controls({ difficulty, setDifficulty, mode, setMode }: ControlsBarProps) {
+export function Controls({ difficulty, setDifficulty, mode, setMode, isTimerRunning }: ControlsBarProps) {
 
     return (
         /* Controls - div */
@@ -18,6 +19,7 @@ export function Controls({ difficulty, setDifficulty, mode, setMode }: ControlsB
                     value={difficulty}
                     options={['Easy', 'Medium', 'Hard']}
                     onChange={setDifficulty}
+                    disabled={isTimerRunning}
                 />
             </div>
             {/* Mode - div */}
@@ -26,6 +28,7 @@ export function Controls({ difficulty, setDifficulty, mode, setMode }: ControlsB
                     value={mode}
                     options={['Timed (60s)', 'Passage']}
                     onChange={setMode}
+                    disabled={isTimerRunning}
                 />
             </div>
         </div>
