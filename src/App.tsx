@@ -6,12 +6,14 @@ import { TypingArea } from './components/TypingArea'
 import { Container } from './layout/Container'
 import { useState, useEffect } from 'react';
 import { DifficultyLabelToKeyMap } from './types/DifficultyLabelToKeyMap'
+import { getBestScore, setBestScore } from './utils/storage'
 
 function App() {
 
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [accuracy, setAccuracy] = useState(100);
   const [typedChars, setTypedChars] = useState(0);
+  const [passageLength, setPassageLength] = useState(0);
   const [difficulty, setDifficulty] = useState('Easy');
   const [mode, setMode] = useState('Timed (60s)');
   const [timeElapsed, setTimeElapsed] = useState(() => {
@@ -21,10 +23,33 @@ function App() {
   const timeMinutes = timeElapsed / 60;
   const wpm = timeMinutes > 0 ? Math.round((typedChars / 5) / timeMinutes) : 0;
 
-  const difficultyKey = Object.entries(DifficultyLabelToKeyMap)
-                        .find(([label]) => label === difficulty)?.[1] as string;
+  const difficultyKey = Object.entries(DifficultyLabelToKeyMap).find(([label]) => label === difficulty)?.[1] as string;
 
-  console.log("App State: ", {difficulty, difficultyKey});
+  const storageKey = `typing-best:${difficulty}:${mode}`;
+  const [bestWpm, setBestWpm] = useState<number>(() => getBestScore(storageKey));
+
+  const [hasCompleted, setHasCompleted] = useState(false);
+  const isTimedCompleted = mode === 'Timed (60s)' && typedChars === passageLength && timeElapsed < 60;
+  const isPassageCompleted = mode === 'Passage' && typedChars === passageLength;
+
+  const isTestCompleted = !hasCompleted && (isTimedCompleted || isPassageCompleted);
+
+  useEffect(() => {
+    setBestWpm(getBestScore(storageKey)); 
+  }, [storageKey]);
+
+  useEffect(() => {
+    if (!isTestCompleted) return;
+  
+    setHasCompleted(true);
+    setIsTimerRunning(false);
+
+    if (wpm > bestWpm) {
+      setBestWpm(wpm);
+      setBestScore(storageKey, wpm);
+    }
+
+  }, [isTestCompleted, wpm, bestWpm, hasCompleted, storageKey]);
 
   useEffect(() => {
     if(!isTimerRunning) return;
@@ -50,7 +75,9 @@ function App() {
   return (
       <Container>
         <div className='space-y-6'>
-          <Header />
+          <Header 
+            wpm={wpm}
+          />
           <StatsBar 
             timeElapsed={timeElapsed}
             accuracy={accuracy} 
@@ -66,6 +93,7 @@ function App() {
           <TypingArea 
             isTimerRunning={isTimerRunning}
             setIsTimerRunning={setIsTimerRunning}
+            setPassageLength={setPassageLength}
             setAccuracy={setAccuracy}
             setTypedChars={setTypedChars}
             difficultyKey={difficultyKey}

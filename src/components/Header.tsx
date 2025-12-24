@@ -1,7 +1,11 @@
 import logoSmall from '../assets/images/logo-small.svg';
 import logoPBest from '../assets/images/icon-personal-best.svg';
 
-export function Header() {
+type HeaderBarProps = {
+    wpm: number;
+};
+
+export function Header({ wpm }: HeaderBarProps) {
   return (
     <header className="-mt-2 mb-6 flex items-center justify-between">
         <img
@@ -16,7 +20,7 @@ export function Header() {
                 className='w-4'
             />
             <span className="text-neutral-500">Best:</span>{' '}
-            <span className="text-neutral-200 font-medium">0 WPM</span>
+            <span className="text-neutral-200 font-medium">{wpm} WPM</span>
         </div>
     </header>
   )

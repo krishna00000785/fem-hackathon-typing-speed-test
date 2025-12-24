@@ -12,12 +12,13 @@ import type { Passage } from '../types/Passage';
 type TypingAreaProps = {
   isTimerRunning: boolean;
   setIsTimerRunning: React.Dispatch<React.SetStateAction<boolean>>;
+  setPassageLength: React.Dispatch<React.SetStateAction<number>>;
   setAccuracy: React.Dispatch<React.SetStateAction<number>>;
   setTypedChars: React.Dispatch<React.SetStateAction<number>>;
   difficultyKey: string;
 };
 
-export function TypingArea({ isTimerRunning, setIsTimerRunning, setAccuracy, setTypedChars, difficultyKey }: TypingAreaProps) {
+export function TypingArea({ isTimerRunning, setIsTimerRunning, setPassageLength, setAccuracy, setTypedChars, difficultyKey }: TypingAreaProps) {
 
   const [isStarted, setIsStarted] = useState(false);
 
@@ -29,7 +30,7 @@ export function TypingArea({ isTimerRunning, setIsTimerRunning, setAccuracy, set
   const passage = rawData[difficultyKey][randomIndex].text;
   const chars = passage.split('');
   const maxLength = passage.length;
-
+  
   const [inputValue, setInputValue] = useState('');
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -38,6 +39,10 @@ export function TypingArea({ isTimerRunning, setIsTimerRunning, setAccuracy, set
     if(isStarted) return;
     setIsStarted(true);
   }
+
+  useEffect(() => {
+    setPassageLength(passage.length);
+  }, [passage.length, setPassageLength]);
 
   useEffect(() => {
     if(isStarted) {

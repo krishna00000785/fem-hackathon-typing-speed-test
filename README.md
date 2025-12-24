@@ -70,9 +70,10 @@ This challenge significantly improved my confidence in structuring larger React 
 
 In future projects, I’d like to focus more on
 
-- Persist best scores using localStorage
+- Persist best scores using localStorage and verify current WPM working fine
 - Final results screen with summary
 - Restart / retry shortcuts
+- Reset test on difficulty change
 - Sound or animation feedback on errors
 - Multiplayer or leaderboard mode
 
