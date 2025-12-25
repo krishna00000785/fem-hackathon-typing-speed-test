@@ -72,6 +72,30 @@ function App() {
     return () => clearInterval(timer);
   }, [isTimerRunning, mode]);
   
+  const handleDifficultyChange = (newDifficulty: string) => {
+    setDifficulty(newDifficulty);
+
+    // reset stats and timer
+    setIsTimerRunning(false);
+    setHasCompleted(false);
+    setTypedChars(0);
+    setAccuracy(100);
+
+    setTimeElapsed(mode === 'Timed (60s)' ? 60 : 0);
+  }
+
+  const handleModeChange = (newMode: string) => {
+    setMode(newMode);
+
+    // reset stats and timer
+    setIsTimerRunning(false);
+    setHasCompleted(false);
+    setTypedChars(0);
+    setAccuracy(100);
+
+    setTimeElapsed(newMode === 'Timed (60s)' ? 60 : 0);
+  };
+
   return (
       <Container>
         <div className='space-y-6'>
@@ -85,12 +109,13 @@ function App() {
             />
           <Controls 
             difficulty={difficulty}
-            setDifficulty={setDifficulty}
+            setDifficulty={handleDifficultyChange}
             mode={mode}
-            setMode={setMode}
+            setMode={handleModeChange}
             isTimerRunning={isTimerRunning}
           />
           <TypingArea 
+            key={`${difficultyKey}-${mode}`}
             isTimerRunning={isTimerRunning}
             setIsTimerRunning={setIsTimerRunning}
             setPassageLength={setPassageLength}
