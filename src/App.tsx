@@ -7,6 +7,7 @@ import { Container } from './layout/Container'
 import { useState, useEffect } from 'react';
 import { DifficultyLabelToKeyMap } from './types/DifficultyLabelToKeyMap'
 import { getBestScore, setBestScore } from './utils/storage'
+import { Results } from './components/Results'
 
 function App() {
 
@@ -96,33 +97,55 @@ function App() {
     setTimeElapsed(newMode === 'Timed (60s)' ? 60 : 0);
   };
 
+  const handleRestart = () => {
+    setIsTimerRunning(false);
+    setTimeElapsed(0);
+    setTypedChars(0);
+    setAccuracy(100);
+    setHasCompleted(false);
+  };
+
   return (
       <Container>
         <div className='space-y-6'>
           <Header 
             wpm={wpm}
           />
-          <StatsBar 
-            timeElapsed={timeElapsed}
-            accuracy={accuracy} 
-            wpm={wpm}
-            />
-          <Controls 
-            difficulty={difficulty}
-            setDifficulty={handleDifficultyChange}
-            mode={mode}
-            setMode={handleModeChange}
-            isTimerRunning={isTimerRunning}
-          />
-          <TypingArea 
-            key={`${difficultyKey}-${mode}`}
-            isTimerRunning={isTimerRunning}
-            setIsTimerRunning={setIsTimerRunning}
-            setPassageLength={setPassageLength}
-            setAccuracy={setAccuracy}
-            setTypedChars={setTypedChars}
-            difficultyKey={difficultyKey}
-            />
+          {hasCompleted ? (
+              <>
+                <Results
+                  wpm={wpm}
+                  accuracy={accuracy}
+                  typedCharCount={typedChars}
+                  passageLength={passageLength}
+                  onRestart={handleRestart}
+                />
+              </>
+            ) : (
+              <>
+                <StatsBar 
+                  timeElapsed={timeElapsed}
+                  accuracy={accuracy} 
+                  wpm={wpm}
+                  />
+                <Controls 
+                  difficulty={difficulty}
+                  setDifficulty={handleDifficultyChange}
+                  mode={mode}
+                  setMode={handleModeChange}
+                  isTimerRunning={isTimerRunning}
+                />
+                <TypingArea 
+                  key={`${difficultyKey}-${mode}`}
+                  isTimerRunning={isTimerRunning}
+                  setIsTimerRunning={setIsTimerRunning}
+                  setPassageLength={setPassageLength}
+                  setAccuracy={setAccuracy}
+                  setTypedChars={setTypedChars}
+                  difficultyKey={difficultyKey}
+                />
+              </>
+            )}
         </div>
       </Container>
   )
