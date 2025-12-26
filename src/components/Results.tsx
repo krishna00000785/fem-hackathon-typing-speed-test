@@ -1,8 +1,10 @@
 import { Stat } from "./Stat";
 import restart from '../assets/images/icon-restart.svg';
 import complete from '../assets/images/icon-completed.svg';
+import newpb from '../assets/images/icon-new-pb.svg';
 
 type ResultsProps = {
+  isBestWpm: number;
   wpm: number;
   accuracy: number;
   typedCharCount: number;
@@ -11,11 +13,13 @@ type ResultsProps = {
   onRestart: () => void;
 }
 
-export function Results({ wpm, accuracy, typedCharCount, typedCorrectChars, passageLength, onRestart}: ResultsProps) {
+export function Results({ isBestWpm, wpm, accuracy, typedCharCount, typedCorrectChars, passageLength, onRestart}: ResultsProps) {
 
     const errorChars = passageLength - typedCorrectChars;
 console.log('typedCorrectChars ', typedCorrectChars);
+console.log('errorChars ', errorChars);
 console.log('wpm ', wpm);
+console.log('isBestWpm ', isBestWpm);
 console.log('accuracy ', accuracy);
 console.log('typedCharCount ', typedCharCount);
 console.log('passageLength ', passageLength);
@@ -23,19 +27,52 @@ console.log('passageLength ', passageLength);
     return (
         <div className="mt-20 flex flex-col items-center text-center">
             {/* Icon */}
-            <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-green-200/10">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-200/15">
-                    <div className="h-12 w-12 rounded-full bg-green-500 flex items-center justify-center text-black text-xl font-bold">
-                        <img src={complete} alt="complete" className="h-12 w-12" />
-                    </div>
-                </div>
-            </div>
+            {
+                isBestWpm === 1 ? (
+                    <>
+                        <div className="h-12 w-12 rounded-full bg-green-500 flex items-center justify-center text-black text-xl font-bold">
+                            <img src={newpb} alt="new pb" className="h-12 w-12" />
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-green-200/10">
+                            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-200/15">
+                                <div className="h-12 w-12 rounded-full bg-green-500 flex items-center justify-center text-black text-xl font-bold">
+                                    <img src={complete} alt="complete" className="h-12 w-12" />
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )
+            }
 
             {/* Title */}
-            <h2 className="text-2xl font-semibold">Test Complete!</h2>
-            <p className="mt-1 text-sm text-neutral-400">
-                Solid run. Keep pushing to beat your high score.
-            </p>
+            {/* Conditional */}
+            {
+                isBestWpm === 1 ? (
+                <>
+                    <h2 className="text-2xl font-semibold">High Score smashed!</h2>
+                    <p className="mt-1 text-sm text-neutral-400">
+                        You're getting faster. That was incredible typing!
+                    </p>
+                </>
+                ) : (
+                    isBestWpm === 0 ? (
+                    <>
+                        <h2 className="text-2xl font-semibold">Baseline Established!</h2>
+                        <p className="mt-1 text-sm text-neutral-400">
+                            You've set the bar. Now the real challenge begins-time to beat it.
+                        </p>
+                    </>
+                    ) : (
+                    <>
+                        <h2 className="text-2xl font-semibold">Test Completed!</h2>
+                        <p className="mt-1 text-sm text-neutral-400">
+                            Solid run. Keep pushing to beat your high score.
+                        </p>
+                    </>
+            ))} 
 
             {/* Stats */}
             <div className="mt-6 w-full space-y-3">

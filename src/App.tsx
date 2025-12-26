@@ -29,6 +29,7 @@ function App() {
 
   const storageKey = `typing-best:${difficulty}:${mode}`;
   const [bestWpm, setBestWpm] = useState<number>(() => getBestScore(storageKey));
+  const [isBestWpm, setIsBestWpm] = useState<number>(0); // 0 - First Run; 1 - New Best; -1 - Not Best
 
   const [hasCompleted, setHasCompleted] = useState(false);
   const isTimedCompleted = mode === 'Timed (60s)' && typedChars === passageLength && timeElapsed < 60;
@@ -45,6 +46,14 @@ function App() {
   
     setHasCompleted(true);
     setIsTimerRunning(false);
+
+    if(bestWpm === 0) {
+      setIsBestWpm(0);
+    } else if(bestWpm > 0 && wpm > bestWpm) {
+      setIsBestWpm(1);
+    } else {
+      setIsBestWpm(-1);
+    }
 
     if (wpm > bestWpm) {
       setBestWpm(wpm);
@@ -113,12 +122,13 @@ function App() {
       <Container>
         <div className='space-y-6'>
           <Header 
-            wpm={wpm}
+            bestWpm={bestWpm}
           />
           {hasCompleted ? (
               <>
                 <Results
                   wpm={wpm}
+                  isBestWpm={isBestWpm}
                   accuracy={accuracy}
                   typedCharCount={typedChars}
                   typedCorrectChars={typedCorrectChars}

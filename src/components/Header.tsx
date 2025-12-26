@@ -2,10 +2,10 @@ import logoSmall from '../assets/images/logo-small.svg';
 import logoPBest from '../assets/images/icon-personal-best.svg';
 
 type HeaderBarProps = {
-    wpm: number;
+    bestWpm: number;
 };
 
-export function Header({ wpm }: HeaderBarProps) {
+export function Header({ bestWpm }: HeaderBarProps) {
   return (
     <header className="-mt-2 mb-6 flex items-center justify-between">
         <img
@@ -20,7 +20,7 @@ export function Header({ wpm }: HeaderBarProps) {
                 className='w-4'
             />
             <span className="text-neutral-500">Best:</span>{' '}
-            <span className="text-neutral-200 font-medium">{wpm} WPM</span>
+            <span className="text-neutral-200 font-medium">{bestWpm} WPM</span>
         </div>
     </header>
   )
