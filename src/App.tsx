@@ -14,6 +14,7 @@ function App() {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [accuracy, setAccuracy] = useState(100);
   const [typedChars, setTypedChars] = useState(0);
+  const [typedCorrectChars, setTypedCorrectChars] = useState(0);
   const [passageLength, setPassageLength] = useState(0);
   const [difficulty, setDifficulty] = useState('Easy');
   const [mode, setMode] = useState('Timed (60s)');
@@ -81,6 +82,7 @@ function App() {
     setHasCompleted(false);
     setTypedChars(0);
     setAccuracy(100);
+    setTypedCorrectChars(0);
 
     setTimeElapsed(mode === 'Timed (60s)' ? 60 : 0);
   }
@@ -93,6 +95,7 @@ function App() {
     setHasCompleted(false);
     setTypedChars(0);
     setAccuracy(100);
+    setTypedCorrectChars(0);
 
     setTimeElapsed(newMode === 'Timed (60s)' ? 60 : 0);
   };
@@ -102,6 +105,7 @@ function App() {
     setTimeElapsed(0);
     setTypedChars(0);
     setAccuracy(100);
+    setTypedCorrectChars(0);
     setHasCompleted(false);
   };
 
@@ -117,6 +121,7 @@ function App() {
                   wpm={wpm}
                   accuracy={accuracy}
                   typedCharCount={typedChars}
+                  typedCorrectChars={typedCorrectChars}
                   passageLength={passageLength}
                   onRestart={handleRestart}
                 />
@@ -142,6 +147,7 @@ function App() {
                   setPassageLength={setPassageLength}
                   setAccuracy={setAccuracy}
                   setTypedChars={setTypedChars}
+                  setTypedCorrectChars={setTypedCorrectChars}
                   difficultyKey={difficultyKey}
                 />
               </>

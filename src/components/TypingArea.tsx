@@ -15,10 +15,11 @@ type TypingAreaProps = {
   setPassageLength: React.Dispatch<React.SetStateAction<number>>;
   setAccuracy: React.Dispatch<React.SetStateAction<number>>;
   setTypedChars: React.Dispatch<React.SetStateAction<number>>;
+  setTypedCorrectChars: React.Dispatch<React.SetStateAction<number>>;
   difficultyKey: string;
 };
 
-export function TypingArea({ isTimerRunning, setIsTimerRunning, setPassageLength, setAccuracy, setTypedChars, difficultyKey }: TypingAreaProps) {
+export function TypingArea({ isTimerRunning, setIsTimerRunning, setPassageLength, setAccuracy, setTypedChars, setTypedCorrectChars, difficultyKey }: TypingAreaProps) {
 
   const [isStarted, setIsStarted] = useState(false);
 
@@ -72,6 +73,7 @@ export function TypingArea({ isTimerRunning, setIsTimerRunning, setPassageLength
   const accuracy = inputValue.length === 0 ? 100 : Math.round((correctCharCount / inputValue.length) * 100);
   
   useEffect(() => { setAccuracy(accuracy); }, [accuracy, setAccuracy]);
+  useEffect(() => { setTypedCorrectChars(correctCharCount); }, [correctCharCount, setTypedCorrectChars]);
 
   useEffect(() => {
     if(isTimerRunning && inputValue.length === passage.length) {
