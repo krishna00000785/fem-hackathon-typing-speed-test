@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import { DifficultyLabelToKeyMap } from './types/DifficultyLabelToKeyMap'
 import { getBestScore, setBestScore } from './utils/storage'
 import { Results } from './components/Results'
+import { fireConfetti } from "./utils/confetti"
 
 function App() {
 
@@ -61,6 +62,12 @@ function App() {
     }
 
   }, [isTestCompleted, wpm, bestWpm, hasCompleted, storageKey]);
+
+  useEffect(() => { 
+    if (isBestWpm === 1) {
+      fireConfetti()
+    }
+  }, [isBestWpm])
 
   useEffect(() => {
     if(!isTimerRunning) return;
