@@ -9,6 +9,7 @@ import { DifficultyLabelToKeyMap } from './types/DifficultyLabelToKeyMap'
 import { getBestScore, setBestScore } from './utils/storage'
 import { Results } from './components/Results'
 import { fireConfetti } from "./utils/confetti"
+import { RestartButton } from './components/RestartButton'
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
   const isPassageCompleted = mode === 'Passage' && typedChars === passageLength;
 
   const isTestCompleted = !hasCompleted && (isTimedCompleted || isPassageCompleted);
+  const [testStatus, setTestStatus] = useState<"idle" | "running" | "finished">("idle")
 
   useEffect(() => {
     setBestWpm(getBestScore(storageKey)); 
@@ -95,6 +97,7 @@ function App() {
 
     // reset stats and timer
     setIsTimerRunning(false);
+    setTestStatus("idle");
     setHasCompleted(false);
     setTypedChars(0);
     setAccuracy(100);
@@ -108,6 +111,7 @@ function App() {
 
     // reset stats and timer
     setIsTimerRunning(false);
+    setTestStatus("idle");
     setHasCompleted(false);
     setTypedChars(0);
     setAccuracy(100);
@@ -117,7 +121,9 @@ function App() {
   };
 
   const handleRestart = () => {
+console.log('Restarting test...');
     setIsTimerRunning(false);
+    setTestStatus("idle");
     setTypedChars(0);
     setAccuracy(100);
     setTypedCorrectChars(0);
@@ -161,6 +167,7 @@ function App() {
                 <TypingArea 
                   key={`${difficultyKey}-${mode}`}
                   isTimerRunning={isTimerRunning}
+                  setTestStatus={setTestStatus}
                   setIsTimerRunning={setIsTimerRunning}
                   setPassageLength={setPassageLength}
                   setAccuracy={setAccuracy}
@@ -168,6 +175,14 @@ function App() {
                   setTypedCorrectChars={setTypedCorrectChars}
                   difficultyKey={difficultyKey}
                 />
+                {/* Restart Button */}
+                {
+                  testStatus === "running" && (
+                    <RestartButton 
+                      onClick={handleRestart}
+                     />
+                  )
+                }
               </>
             )}
         </div>

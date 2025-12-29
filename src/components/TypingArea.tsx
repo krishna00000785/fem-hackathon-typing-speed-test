@@ -12,6 +12,7 @@ import type { Passage } from '../types/Passage';
 type TypingAreaProps = {
   isTimerRunning: boolean;
   setIsTimerRunning: React.Dispatch<React.SetStateAction<boolean>>;
+  setTestStatus: React.Dispatch<React.SetStateAction<"idle" | "running" | "finished">>;
   setPassageLength: React.Dispatch<React.SetStateAction<number>>;
   setAccuracy: React.Dispatch<React.SetStateAction<number>>;
   setTypedChars: React.Dispatch<React.SetStateAction<number>>;
@@ -19,7 +20,7 @@ type TypingAreaProps = {
   difficultyKey: string;
 };
 
-export function TypingArea({ isTimerRunning, setIsTimerRunning, setPassageLength, setAccuracy, setTypedChars, setTypedCorrectChars, difficultyKey }: TypingAreaProps) {
+export function TypingArea({ isTimerRunning, setIsTimerRunning, setTestStatus, setPassageLength, setAccuracy, setTypedChars, setTypedCorrectChars, difficultyKey }: TypingAreaProps) {
 
   const [isStarted, setIsStarted] = useState(false);
 
@@ -59,6 +60,7 @@ export function TypingArea({ isTimerRunning, setIsTimerRunning, setPassageLength
 
     if(!isTimerRunning && value.length == 1) {
       setIsTimerRunning(true);
+      setTestStatus("running");
     }
 
     setInputValue(value);
@@ -78,8 +80,9 @@ export function TypingArea({ isTimerRunning, setIsTimerRunning, setPassageLength
   useEffect(() => {
     if(isTimerRunning && inputValue.length === passage.length) {
       setIsTimerRunning(false);
+      setTestStatus("finished");
     }
-  }, [inputValue.length, isTimerRunning, passage.length, setIsTimerRunning]);
+  }, [inputValue.length, isTimerRunning, passage.length, setIsTimerRunning, setTestStatus]);
 
   
   return (
