@@ -25,7 +25,7 @@ console.log('typedCharCount ', typedCharCount);
 console.log('passageLength ', passageLength);
 
     return (
-        <div className="mt-20 flex flex-col items-center text-center">
+        <div className="mt-20 flex flex-col items-center text-center animate-fadeUp">
             {/* Icon */}
             {
                 isBestWpm === 1 ? (
