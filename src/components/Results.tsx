@@ -30,7 +30,7 @@ console.log('passageLength ', passageLength);
             {
                 isBestWpm === 1 ? (
                     <>
-                        <div className="h-12 w-12 rounded-full bg-green-500 flex items-center justify-center text-black text-xl font-bold">
+                        <div className="mb-4 h-12 w-12 flex items-center justify-center text-black text-xl font-bold">
                             <img src={newpb} alt="new pb" className="h-12 w-12" />
                         </div>
                     </>

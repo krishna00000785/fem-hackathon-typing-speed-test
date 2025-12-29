@@ -111,11 +111,12 @@ function App() {
 
   const handleRestart = () => {
     setIsTimerRunning(false);
-    setTimeElapsed(0);
     setTypedChars(0);
     setAccuracy(100);
     setTypedCorrectChars(0);
     setHasCompleted(false);
+
+    setTimeElapsed(mode === 'Timed (60s)' ? 60 : 0);
   };
 
   return (
