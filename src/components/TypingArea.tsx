@@ -154,11 +154,6 @@ export function TypingArea({ isTimerRunning, setIsTimerRunning, setTestStatus, s
         ref={inputRef}
         value={inputValue}
         onChange={handleInputChange}
-        onKeyDown={(e) => {
-          if( e.key === 'Backspace') {
-            e.preventDefault();
-          }
-        }}
         className="absolute inset-0 opacity-0 w-full h-full resize-none outline-none"
         aria-label='Typing input'
       />

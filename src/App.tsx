@@ -38,7 +38,8 @@ function App() {
   const isPassageCompleted = mode === 'Passage' && typedChars === passageLength;
 
   const isTestCompleted = !hasCompleted && (isTimedCompleted || isPassageCompleted);
-  const [testStatus, setTestStatus] = useState<"idle" | "running" | "finished">("idle")
+  const [testStatus, setTestStatus] = useState<"idle" | "running" | "finished">("idle");
+  const [resetKey, setResetKey] = useState(0);
 
   useEffect(() => {
     setBestWpm(getBestScore(storageKey)); 
@@ -124,12 +125,14 @@ function App() {
 console.log('Restarting test...');
     setIsTimerRunning(false);
     setTestStatus("idle");
+    setHasCompleted(false);
+
     setTypedChars(0);
     setAccuracy(100);
     setTypedCorrectChars(0);
-    setHasCompleted(false);
 
     setTimeElapsed(mode === 'Timed (60s)' ? 60 : 0);
+    setResetKey((prev) => prev + 1);
   };
 
   return (
@@ -165,7 +168,7 @@ console.log('Restarting test...');
                   isTimerRunning={isTimerRunning}
                 />
                 <TypingArea 
-                  key={`${difficultyKey}-${mode}`}
+                  key={`${difficultyKey}-${mode}-${resetKey}`}
                   isTimerRunning={isTimerRunning}
                   setTestStatus={setTestStatus}
                   setIsTimerRunning={setIsTimerRunning}
