@@ -17,11 +17,11 @@ type TypingAreaProps = {
   setAccuracy: React.Dispatch<React.SetStateAction<number>>;
   setTypedChars: React.Dispatch<React.SetStateAction<number>>;
   setTypedCorrectChars: React.Dispatch<React.SetStateAction<number>>;
+  setTypedIncorrectChars: React.Dispatch<React.SetStateAction<number>>;
   difficultyKey: string;
 };
 
-export function TypingArea({ isTimerRunning, setIsTimerRunning, setTestStatus, setPassageLength, setAccuracy, setTypedChars, setTypedCorrectChars, difficultyKey }: TypingAreaProps) {
-
+export function TypingArea({ isTimerRunning, setIsTimerRunning, setTestStatus, setPassageLength, setAccuracy, setTypedChars, setTypedCorrectChars, setTypedIncorrectChars, difficultyKey }: TypingAreaProps) {
   const [isStarted, setIsStarted] = useState(false);
 
   const rawData = data as Record<string, Passage[]>;
@@ -32,7 +32,8 @@ export function TypingArea({ isTimerRunning, setIsTimerRunning, setTestStatus, s
   const passage = rawData[difficultyKey][randomIndex].text;
   const chars = passage.split('');
   const maxLength = passage.length;
-  
+  const [incorrectCharsCount, setIncorrectCharsCount] = useState(0);
+  const [totalKeyStrokes, setTotalKeyStrokes] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -54,6 +55,8 @@ export function TypingArea({ isTimerRunning, setIsTimerRunning, setTestStatus, s
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
+    const lastCharIndex = value.length - 1;
+
     if(value.length > maxLength) {
       return;
     }
@@ -63,7 +66,15 @@ export function TypingArea({ isTimerRunning, setIsTimerRunning, setTestStatus, s
       setTestStatus("running");
     }
 
+    setTotalKeyStrokes(prev => prev + 1);
     setInputValue(value);
+
+    const typedChar = value[lastCharIndex];
+    const targetChar = passage[lastCharIndex];
+
+    if(typedChar !== targetChar) {
+      setIncorrectCharsCount(prev => prev + 1);
+    }
   }
 
   useEffect(() => { setTypedChars(inputValue.length);}, [inputValue.length, setTypedChars]);
@@ -72,10 +83,11 @@ export function TypingArea({ isTimerRunning, setIsTimerRunning, setTestStatus, s
                             .filter((char, index) => char === passage[index])
                             .length;
 
-  const accuracy = inputValue.length === 0 ? 100 : Math.round((correctCharCount / inputValue.length) * 100);
+  const accuracy = totalKeyStrokes === 0 ? 100 : Math.round((correctCharCount / totalKeyStrokes) * 100);
   
   useEffect(() => { setAccuracy(accuracy); }, [accuracy, setAccuracy]);
   useEffect(() => { setTypedCorrectChars(correctCharCount); }, [correctCharCount, setTypedCorrectChars]);
+  useEffect(() => { setTypedIncorrectChars(incorrectCharsCount); }, [incorrectCharsCount, setTypedIncorrectChars]);
 
   useEffect(() => {
     if(isTimerRunning && inputValue.length === passage.length) {

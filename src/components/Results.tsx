@@ -9,15 +9,15 @@ type ResultsProps = {
   accuracy: number;
   typedCharCount: number;
   typedCorrectChars: number;
+  typedIncorrectChars: number;
   passageLength: number;
   onRestart: () => void;
 }
 
-export function Results({ isBestWpm, wpm, accuracy, typedCharCount, typedCorrectChars, passageLength, onRestart}: ResultsProps) {
+export function Results({ isBestWpm, wpm, accuracy, typedCharCount, typedCorrectChars, typedIncorrectChars, passageLength, onRestart}: ResultsProps) {
 
-    const errorChars = passageLength - typedCorrectChars;
 console.log('typedCorrectChars ', typedCorrectChars);
-console.log('errorChars ', errorChars);
+console.log('typedIncorrectChars ', typedIncorrectChars);
 console.log('wpm ', wpm);
 console.log('isBestWpm ', isBestWpm);
 console.log('accuracy ', accuracy);
@@ -83,7 +83,7 @@ console.log('passageLength ', passageLength);
                     <p className='mt-1 text-2xl font-semibold'>
                         <span className="text-green-400">{typedCorrectChars}</span>
                         <span className="text-neutral-500">/</span> 
-                        <span className="text-red-400">{errorChars}</span>
+                        <span className="text-red-400">{typedIncorrectChars}</span>
                     </p>
                 </div>
             </div>

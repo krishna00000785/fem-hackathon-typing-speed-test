@@ -17,6 +17,7 @@ function App() {
   const [accuracy, setAccuracy] = useState(100);
   const [typedChars, setTypedChars] = useState(0);
   const [typedCorrectChars, setTypedCorrectChars] = useState(0);
+  const [typedIncorrectChars, setTypedIncorrectChars] = useState(0);
   const [passageLength, setPassageLength] = useState(0);
   const [difficulty, setDifficulty] = useState('Easy');
   const [mode, setMode] = useState('Timed (60s)');
@@ -149,6 +150,7 @@ console.log('Restarting test...');
                   accuracy={accuracy}
                   typedCharCount={typedChars}
                   typedCorrectChars={typedCorrectChars}
+                  typedIncorrectChars={typedIncorrectChars}
                   passageLength={passageLength}
                   onRestart={handleRestart}
                 />
@@ -176,6 +178,7 @@ console.log('Restarting test...');
                   setAccuracy={setAccuracy}
                   setTypedChars={setTypedChars}
                   setTypedCorrectChars={setTypedCorrectChars}
+                  setTypedIncorrectChars={setTypedIncorrectChars}
                   difficultyKey={difficultyKey}
                 />
                 {/* Restart Button */}
