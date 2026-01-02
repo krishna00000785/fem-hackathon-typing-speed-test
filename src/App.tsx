@@ -104,6 +104,7 @@ function App() {
     setTypedChars(0);
     setAccuracy(100);
     setTypedCorrectChars(0);
+    setTypedIncorrectChars(0);
 
     setTimeElapsed(mode === 'Timed (60s)' ? 60 : 0);
   }
@@ -118,6 +119,7 @@ function App() {
     setTypedChars(0);
     setAccuracy(100);
     setTypedCorrectChars(0);
+    setTypedIncorrectChars(0);
 
     setTimeElapsed(newMode === 'Timed (60s)' ? 60 : 0);
   };
@@ -131,6 +133,7 @@ console.log('Restarting test...');
     setTypedChars(0);
     setAccuracy(100);
     setTypedCorrectChars(0);
+    setTypedIncorrectChars(0);
 
     setTimeElapsed(mode === 'Timed (60s)' ? 60 : 0);
     setResetKey((prev) => prev + 1);
