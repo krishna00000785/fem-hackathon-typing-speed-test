@@ -141,7 +141,7 @@ console.log('Restarting test...');
 
   return (
       <Container>
-        <div className='space-y-6'>
+        <div className='space-y-8 md:space-y-16'>
           <Header 
             bestWpm={bestWpm}
           />
@@ -160,18 +160,21 @@ console.log('Restarting test...');
               </>
             ) : (
               <>
-                <StatsBar 
-                  timeElapsed={timeElapsed}
-                  accuracy={accuracy} 
-                  wpm={wpm}
+                {/* Mobile: stacked | Desktop: side by side */}
+                <div className="space-y-4 md:grid md:grid-cols-2 md:gap-6 md:space-y-0 rounded-xl border border-neutral-800 bg-neutral-900/40 p-4 md:items-center">
+                  <StatsBar 
+                    timeElapsed={timeElapsed}
+                    accuracy={accuracy} 
+                    wpm={wpm}
+                    />
+                  <Controls 
+                    difficulty={difficulty}
+                    setDifficulty={handleDifficultyChange}
+                    mode={mode}
+                    setMode={handleModeChange}
+                    isTimerRunning={isTimerRunning}
                   />
-                <Controls 
-                  difficulty={difficulty}
-                  setDifficulty={handleDifficultyChange}
-                  mode={mode}
-                  setMode={handleModeChange}
-                  isTimerRunning={isTimerRunning}
-                />
+                </div>
                 <TypingArea 
                   key={`${difficultyKey}-${mode}-${resetKey}`}
                   isTimerRunning={isTimerRunning}

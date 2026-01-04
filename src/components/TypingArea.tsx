@@ -100,7 +100,7 @@ export function TypingArea({ isTimerRunning, setIsTimerRunning, setTestStatus, s
   return (
     <div onClick={startTest} className="relative mt-6 rounded-lg bg-neutral-800 px-4 py-6 min-h-[200px] cursor-text">
       {/* content goes here */}
-      <p className={`flex flex-wrap text-base leading-relaxed ${!isStarted ? 'select-none' : ''}`} >
+      <p className={`flex flex-wrap text-base md:text-2xl lg:text-3xl leading-relaxed md:leading-loose ${!isStarted ? 'select-none' : ''}`} >
         
         {
           chars.map((char, index) => {
@@ -113,13 +113,13 @@ export function TypingArea({ isTimerRunning, setIsTimerRunning, setTestStatus, s
               if (typedChar === char) {
                 className = 'text-green-400';
               } else {
-                className = 'text-red-400';
+                className = 'text-red-400 underline decoration-red-600 decoration-2';
               }
             }
 
             return(
               <span key={index} className='relative'>
-                {cursor && !testCompleted && (<span className="absolute -left-[1px] h-6 w-[2px] bg-white animate-pulse" />)}
+                {cursor && !testCompleted && (<span className="absolute -left-[1px] h-[1.0em] w-[2px] bg-white animate-pulse top-[0.1em]" />)}
 
                 <span className={className}>{char === ' ' ? '\u00A0' : char}</span>
               </span>
